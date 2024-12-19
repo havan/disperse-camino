@@ -35,6 +35,27 @@ module.exports = {
     },
   },
   etherscan: {
-    apiKey: ETHERSCAN_KEY,
+    apiKey: {
+      columbus: "abc",
+      camino: "abc",
+    },
+    customChains: [
+      {
+        network: "columbus",
+        chainId: 501,
+        urls: {
+          apiURL: "https://columbus.caminoscan.com/api",
+          browserURL: "https://columbus.caminoscan.com",
+        },
+      },
+      {
+        network: "camino",
+        chainId: 500,
+        urls: {
+          apiURL: "https://caminoscan.com/api",
+          browserURL: "https://caminoscan.com",
+        },
+      },
+    ],
   },
 };

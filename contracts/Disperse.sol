@@ -1,8 +1,8 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.26;
 
-import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {Address} from "@openzeppelin/contracts/utils/Address.sol";
+import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import { Address } from "@openzeppelin/contracts/utils/Address.sol";
 
 /**
  * @title DisperseCaminoV1
@@ -25,11 +25,7 @@ contract DisperseCaminoV1 {
      * @param recipients Array of recipient addresses
      * @param values Array of token amounts
      */
-    function disperseERC20(
-        IERC20 token,
-        address[] calldata recipients,
-        uint256[] calldata values
-    ) external {
+    function disperseERC20(IERC20 token, address[] calldata recipients, uint256[] calldata values) external {
         // Input validation
         uint256 len = recipients.length;
         if (len == 0) revert EmptyRecipients();
@@ -63,10 +59,7 @@ contract DisperseCaminoV1 {
      * @param recipients Array of recipient addresses
      * @param values Array of amounts to send
      */
-    function disperseCamino(
-        address[] calldata recipients,
-        uint256[] calldata values
-    ) external payable {
+    function disperseCamino(address[] calldata recipients, uint256[] calldata values) external payable {
         uint256 len = recipients.length;
         if (len == 0) revert EmptyRecipients();
         if (len != values.length) revert ArrayLengthMismatch();
