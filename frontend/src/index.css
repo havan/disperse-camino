@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  font-family: "Roboto";
+*,
+.brygada-1918-normal {
+    font-family: "Brygada 1918", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
 }
+
+.selected-token {
+    background-color: aquamarine;
+}
+
+/* 
+
+Camino
+    primary: #0085ff
+  secondary: #b440fc
+     accent: #35e9ad
+        sky: #b5e3fd
+        
+*/
