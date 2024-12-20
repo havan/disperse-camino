@@ -9,6 +9,7 @@ type ConfirmProps = {
     total: ethers.BigNumber | null;
     tokenBalance: string | null;
     tokenDecimals: number | null;
+    tokenSymbol: string | null;
     remaining: string | null;
     approve: () => Promise<void>;
     disperse: () => Promise<void>;
@@ -21,6 +22,7 @@ const Confirm = ({
     total,
     tokenBalance,
     tokenDecimals,
+    tokenSymbol,
     remaining,
     approve,
     disperse,
@@ -30,8 +32,10 @@ const Confirm = ({
     const [isDisabled, setIsDisabled] = useState(false);
 
     useEffect(() => {
-        if (total && tokenBalance && tokenDecimals) {
-            setIsDisabled(!ethers.utils.parseUnits(tokenBalance, tokenDecimals).gt(total));
+        if (total && tokenBalance) {
+            const balance = ethers.utils.parseUnits(tokenBalance, tokenDecimals ?? 18);
+            console.log(`Balance: ${balance} TokenDecimals: ${tokenDecimals} Total: ${total}`);
+            setIsDisabled(!balance.gt(total));
         }
     }, [total, tokenBalance]);
 
@@ -40,7 +44,7 @@ const Confirm = ({
             <h3 className="text-2xl font-light italic">confirm</h3>
             <ul>
                 <li>
-                    <div className="flex justify-between mt-4 border-b border-black">
+                    <div className="flex justify-between mt-4 mb-4 border-b border-black">
                         <div className="italic">address</div>
                         <div className="italic">amount</div>
                     </div>
@@ -50,29 +54,35 @@ const Confirm = ({
                         <li key={index}>
                             <div className="flex justify-between mt-2">
                                 <div>{recipient.address}</div>
-                                <div className="border-b-2 border-black flex-grow-1"></div>
-                                <div>{ethers.utils.formatUnits(recipient.value, tokenDecimals ?? 18)}</div>
+                                <div className="border-b-2 border-black flex-grow-1 bar"></div>
+                                <div>
+                                    {ethers.utils.formatUnits(recipient.value, tokenDecimals ?? 18)} {tokenSymbol}
+                                </div>
                             </div>
                         </li>
                     ))}
                 <li>
-                    <div className="flex justify-between mt-6 border-t border-black">
+                    <div className="flex justify-between mt-4 border-t border-black">
                         <div className="italic">total</div>
                         <div className="italic">
-                            {total ? ethers.utils.formatUnits(total, tokenDecimals ?? 18) : ""}
+                            {total ? ethers.utils.formatUnits(total, tokenDecimals ?? 18) : ""} {tokenSymbol}
                         </div>
                     </div>
                 </li>
                 <li>
                     <div className="flex justify-between mt-2">
                         <div className="italic">your balance</div>
-                        <div className="italic">{tokenBalance}</div>
+                        <div className="italic">
+                            {tokenBalance} {tokenSymbol}
+                        </div>
                     </div>
                 </li>
                 <li>
                     <div className={`flex justify-between mt-2 ${isDisabled && "text-red-700 animate-pulse"}`}>
                         <div className="italic">remaining</div>
-                        <div className="italic">{remaining}</div>
+                        <div className="italic">
+                            {remaining} {tokenSymbol}
+                        </div>
                     </div>
                 </li>
             </ul>

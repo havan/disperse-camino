@@ -18,7 +18,9 @@ const ConfirmEther = ({ recipientsData, total, tokenBalance, remaining, disperse
 
     useEffect(() => {
         if (total && tokenBalance) {
-            setIsDisabled(!ethers.utils.parseUnits(tokenBalance).gt(total));
+            const balance = ethers.utils.parseEther(tokenBalance);
+            console.log(`[CAM] Balance: ${balance} Total: ${total} Remaining: ${remaining}`);
+            setIsDisabled(!balance.gt(total));
         }
     }, [total, tokenBalance]);
 
@@ -27,7 +29,7 @@ const ConfirmEther = ({ recipientsData, total, tokenBalance, remaining, disperse
             <h3 className="text-2xl font-light italic">confirm</h3>
             <ul>
                 <li>
-                    <div className="flex justify-between mt-4 border-b border-black">
+                    <div className="flex justify-between mt-4 mb-4 border-b border-black">
                         <div className="italic">address</div>
                         <div className="italic">amount</div>
                     </div>
@@ -37,26 +39,27 @@ const ConfirmEther = ({ recipientsData, total, tokenBalance, remaining, disperse
                         <li key={i}>
                             <div className="flex justify-between mt-2">
                                 <div>{recipient.address}</div>
-                                <div>{ethers.utils.formatEther(recipient.value)}</div>
+                                <div className="bar"></div>
+                                <div>{ethers.utils.formatEther(recipient.value)} CAM</div>
                             </div>
                         </li>
                     ))}
                 <li>
-                    <div className="flex justify-between mt-6 border-t border-black">
+                    <div className="flex justify-between mt-4 border-t border-black">
                         <div className="italic">total</div>
-                        <div className="italic">{total ? ethers.utils.formatEther(total) : ""}</div>
+                        <div className="italic">{total ? ethers.utils.formatEther(total) : ""} CAM</div>
                     </div>
                 </li>
                 <li>
                     <div className="flex justify-between mt-2">
                         <div className="italic">your balance</div>
-                        <div className="italic">{tokenBalance}</div>
+                        <div className="italic">{tokenBalance} CAM</div>
                     </div>
                 </li>
                 <li>
                     <div className={`flex justify-between mt-2 ${isDisabled && "text-red-700 animate-pulse"}`}>
                         <div className="italic">remaining</div>
-                        <div className="italic">{remaining}</div>
+                        <div className="italic">{remaining} CAM</div>
                     </div>
                 </li>
             </ul>

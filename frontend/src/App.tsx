@@ -52,6 +52,7 @@ function App() {
                     console.log(`Disperse Address: ${networkInfo.disperseAddress}`);
                     dispatch({ type: "SET_NETWORK", payload: networkInfo.name });
                     dispatch({ type: "SET_DISPERSE_ADDRESS", payload: networkInfo.disperseAddress });
+                    dispatch({ type: "SET_EXPLORER_URL", payload: networkInfo.blockExplorer });
                 }
             }
 
@@ -98,12 +99,13 @@ function App() {
         }
     }, []);
     return (
-        <div className="mx-4 px-4 md:mx-8 md:px-8 lg:mx-16 lg:px-16 xl:mx-48 xl:px-48 pt-16 md:pt-20 lg:pt-24 xl:pt-28">
+        <div className="mx-4 px-4 md:mx-16 md:px-16 lg:mx-32 lg:px-32 xl:mx-48 xl:px-48 pt-16 md:pt-20 lg:pt-24 xl:pt-28">
             <NetworkContext.Provider
                 value={{
                     chainId: state.chainId,
                     network: state.network,
                     disperseAddress: state.disperseAddress,
+                    explorerUrl: state.explorerUrl,
                 }}
             >
                 <Header address={address} />

@@ -22,7 +22,23 @@ const Header = ({ address }: HeaderProps) => {
                     alt="Camino Token Logo"
                 />
                 <h2 className="mt-8 text-3xl md:text-4xl lg:text-5xl">disperse</h2>
-                {address && <span className="text-sm md:text-base lg:text-lg">{networkContext.network || "🤷"}</span>}
+                {address && (
+                    <span className="text-sm md:text-base lg:text-lg italic">
+                        {networkContext.network || "unsupported network"}
+                    </span>
+                )}
+
+                {networkContext.disperseAddress && networkContext.explorerUrl && (
+                    <span className="absolute right-0">
+                        <a
+                            href={`${networkContext.explorerUrl}address/${networkContext.disperseAddress}?tab=contract`}
+                            target="_blank"
+                            className="text-xs md:text-sm lg:text-base underline italic"
+                        >
+                            contract
+                        </a>
+                    </span>
+                )}
             </div>
             <p className="mt-4 text-base md:text-lg lg:text-xl">
                 <span className="mr-2 text-xs md:text-sm lg:text-base align-text-top italic">verb</span>

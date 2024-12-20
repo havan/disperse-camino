@@ -14,6 +14,12 @@
     background-color: aquamarine;
 }
 
+.bar {
+    flex-grow: 1;
+    margin: auto 0.3em;
+    border-bottom: 1px #555555 dotted;
+}
+
 /* 
 
 Camino

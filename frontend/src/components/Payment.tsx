@@ -196,15 +196,9 @@ const Payment = ({ address }: PaymentProps) => {
 
     useEffect(() => {
         if (tokenDetails.balance && total && tokenDetails.decimals !== null) {
-            console.log("tokenDetails.balance", tokenDetails.balance);
-            console.log("total", total.toString());
-
             const tokenBalance = ethers.utils.parseUnits(tokenDetails.balance, tokenDetails.decimals);
-            console.log("tokenBalance", tokenBalance.toString());
-
             const remaining = tokenBalance.sub(total);
-            console.log("remaining", remaining.toString());
-
+            console.log(`[${tokenDetails.symbol}] Remaining: ${remaining} Balance: ${tokenBalance} Total: ${total}`);
             setRemaining(ethers.utils.formatUnits(remaining, tokenDetails.decimals));
         } else {
             setRemaining(null);
@@ -286,6 +280,7 @@ const Payment = ({ address }: PaymentProps) => {
                                     total={total}
                                     tokenBalance={tokenDetails.balance}
                                     tokenDecimals={tokenDetails.decimals}
+                                    tokenSymbol={tokenDetails.symbol}
                                     remaining={remaining}
                                     approve={approve}
                                     disperse={disperse}
