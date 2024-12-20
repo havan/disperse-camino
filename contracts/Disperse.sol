@@ -25,7 +25,7 @@ contract DisperseCaminoV1 {
      * @param recipients Array of recipient addresses
      * @param values Array of token amounts
      */
-    function disperseERC20(IERC20 token, address[] calldata recipients, uint256[] calldata values) external {
+    function disperseERC20(IERC20 token, address[] calldata recipients, uint256[] calldata values) external virtual {
         // Input validation
         uint256 len = recipients.length;
         if (len == 0) revert EmptyRecipients();
@@ -59,7 +59,7 @@ contract DisperseCaminoV1 {
      * @param recipients Array of recipient addresses
      * @param values Array of amounts to send
      */
-    function disperseCamino(address[] calldata recipients, uint256[] calldata values) external payable {
+    function disperseCamino(address[] calldata recipients, uint256[] calldata values) external payable virtual {
         uint256 len = recipients.length;
         if (len == 0) revert EmptyRecipients();
         if (len != values.length) revert ArrayLengthMismatch();

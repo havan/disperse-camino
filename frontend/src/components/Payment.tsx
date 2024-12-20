@@ -207,24 +207,28 @@ const Payment = ({ address }: PaymentProps) => {
 
     return (
         <div className="pt-16">
-            <h3 className="text-2xl font-light italic">
-                send
-                <span
-                    onClick={() => setCurrentLink("ether")}
-                    className={`border-gray-600 border-b-2 ${currentLink !== "ether" ? "text-gray-500" : "selected-token"}`}
-                >
-                    {" "}
-                    CAM{" "}
-                </span>
-                or
-                <span
-                    onClick={() => setCurrentLink("token")}
-                    className={`border-gray-600 border-b-2 ${currentLink !== "token" ? "text-gray-500" : "selected-token"}`}
-                >
-                    {" "}
-                    ERC20 token
-                </span>
-            </h3>
+            {(networkInfo?.disperseAddress && (
+                <h3 className="text-2xl font-light italic">
+                    send
+                    <span
+                        onClick={() => setCurrentLink("ether")}
+                        className={`border-gray-600 border-b-2 ${currentLink !== "ether" ? "text-gray-500" : "selected-token"}`}
+                    >
+                        {" "}
+                        CAM{" "}
+                    </span>
+                    or
+                    <span
+                        onClick={() => setCurrentLink("token")}
+                        className={`border-gray-600 border-b-2 ${currentLink !== "token" ? "text-gray-500" : "selected-token"}`}
+                    >
+                        {" "}
+                        ERC20 token
+                    </span>
+                </h3>
+            )) || (
+                <div className="text-red-500 italic">Non supported network. Please connect to Camino or Columbus.</div>
+            )}
 
             {currentLink === "ether" && <Ether address={address} />}
             {currentLink === "token" && (
