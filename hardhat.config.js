@@ -1,16 +1,9 @@
-require("@nomicfoundation/hardhat-ethers");
 require("@nomicfoundation/hardhat-toolbox");
-require("dotenv").config();
 
-//const privateKey = process.env.PRIVATE_KEY;
-
-/**
- * @type import('hardhat/config').HardhatUserConfig
- */
+/** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-    defaultNetwork: "hardhat",
     solidity: {
-        version: "0.8.26",
+        version: "0.8.28",
         settings: {
             optimizer: {
                 enabled: true,
@@ -18,10 +11,8 @@ module.exports = {
             },
         },
     },
+
     networks: {
-        hardhat: {
-            chainId: 1337,
-        },
         localhost: {
             url: "http://127.0.0.1:8545",
         },
@@ -34,6 +25,7 @@ module.exports = {
             accounts: vars.has("CAMINO_DEPLOYER_PRIVATE_KEY") ? [vars.get("CAMINO_DEPLOYER_PRIVATE_KEY")] : [],
         },
     },
+
     etherscan: {
         apiKey: {
             columbus: "abc",

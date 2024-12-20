@@ -1,7 +1,7 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-describe("DisperseCaminoV2", function () {
+describe("DisperseCaminoV1", function () {
     let disperseContract;
     let mockToken;
     let owner;
@@ -20,13 +20,13 @@ describe("DisperseCaminoV2", function () {
         // Mint some tokens to owner
         await mockToken.mint(owner.address, ethers.parseEther("1000"));
 
-        // Deploy DisperseCaminoV2
-        const Disperse = await ethers.getContractFactory("DisperseCaminoV2");
+        // Deploy DisperseCaminoV1
+        const Disperse = await ethers.getContractFactory("DisperseCaminoV1");
         disperseContract = await Disperse.deploy();
         await disperseContract.waitForDeployment();
 
         // Approve disperse contract to spend tokens
-        await mockToken.approve(disperseContract.address, ethers.MaxUint256);
+        await mockToken.approve(await disperseContract.getAddress(), ethers.MaxUint256);
     });
 
     describe("disperseERC20", function () {
@@ -34,15 +34,18 @@ describe("DisperseCaminoV2", function () {
             const recipients = [addr1.address, addr2.address];
             const values = [ethers.parseEther("100"), ethers.parseEther("50")];
 
-            const initialBalance1 = await mockToken.balanceOf(addr1.address);
-            const initialBalance2 = await mockToken.balanceOf(addr2.address);
+            const tx = await disperseContract.disperseERC20(await mockToken.getAddress(), recipients, values);
 
-            await expect(disperseContract.disperseERC20(mockToken.address, recipients, values))
+            await expect(tx)
                 .to.emit(disperseContract, "TokensDispersed")
-                .withArgs(mockToken.address, ethers.parseEther("150"));
+                .withArgs(await mockToken.getAddress(), ethers.parseEther("150"), recipients.length);
 
-            expect(await mockToken.balanceOf(addr1.address)).to.equal(initialBalance1 + values[0]);
-            expect(await mockToken.balanceOf(addr2.address)).to.equal(initialBalance2 + values[1]);
+            // Check token balances
+            await expect(tx).to.changeTokenBalances(
+                mockToken,
+                [owner, disperseContract, addr1, addr2],
+                [-ethers.parseEther("150"), 0, values[0], values[1]],
+            );
         });
 
         it("Should revert if arrays have different lengths", async function () {
@@ -50,15 +53,14 @@ describe("DisperseCaminoV2", function () {
             const values = [ethers.parseEther("100")];
 
             await expect(
-                disperseContract.disperseERC20(mockToken.address, recipients, values),
+                disperseContract.disperseERC20(await mockToken.getAddress(), recipients, values),
             ).to.be.revertedWithCustomError(disperseContract, "ArrayLengthMismatch");
         });
 
         it("Should revert if recipients array is empty", async function () {
-            await expect(disperseContract.disperseERC20(mockToken.address, [], [])).to.be.revertedWithCustomError(
-                disperseContract,
-                "EmptyRecipients",
-            );
+            await expect(
+                disperseContract.disperseERC20(await mockToken.getAddress(), [], []),
+            ).to.be.revertedWithCustomError(disperseContract, "EmptyRecipients");
         });
 
         it("Should revert if transfer fails", async function () {
@@ -66,8 +68,8 @@ describe("DisperseCaminoV2", function () {
             const values = [ethers.parseEther("1001")]; // More than owner has
 
             await expect(
-                disperseContract.disperseERC20(mockToken.address, recipients, values),
-            ).to.be.revertedWithCustomError(disperseContract, "TransferFailed");
+                disperseContract.disperseERC20(await mockToken.getAddress(), recipients, values),
+            ).to.be.revertedWithCustomError(mockToken, "ERC20InsufficientBalance");
         });
     });
 
@@ -77,19 +79,17 @@ describe("DisperseCaminoV2", function () {
             const values = [ethers.parseEther("1"), ethers.parseEther("2")];
             const totalValue = ethers.parseEther("3");
 
-            const initialBalance1 = await ethers.provider.getBalance(addr1.address);
-            const initialBalance2 = await ethers.provider.getBalance(addr2.address);
+            const tx = await disperseContract.disperseCamino(recipients, values, {
+                value: totalValue,
+            });
 
-            await expect(
-                disperseContract.disperseCamino(recipients, values, {
-                    value: totalValue,
-                }),
-            )
-                .to.emit(disperseContract, "CaminoDispersed")
-                .withArgs(totalValue);
+            await expect(tx).to.emit(disperseContract, "CaminoDispersed").withArgs(totalValue, recipients.length);
 
-            expect(await ethers.provider.getBalance(addr1.address)).to.equal(initialBalance1 + values[0]);
-            expect(await ethers.provider.getBalance(addr2.address)).to.equal(initialBalance2 + values[1]);
+            // Check balances
+            await expect(tx).to.changeEtherBalances(
+                [owner, disperseContract, addr1, addr2],
+                [-totalValue, 0, values[0], values[1]],
+            );
         });
 
         it("Should return excess native currency to sender", async function () {
@@ -102,16 +102,9 @@ describe("DisperseCaminoV2", function () {
             const tx = await disperseContract.disperseCamino(recipients, values, {
                 value: sentValue,
             });
-            const receipt = await tx.wait();
-            const gasCost = receipt.gasUsed * receipt.gasPrice;
 
-            // Final balance should be initial - gas - sent + refund
-            const expectedBalance = initialBalance - gasCost - sentValue + ethers.parseEther("1"); // Refund
-
-            expect(await ethers.provider.getBalance(owner.address)).to.be.closeTo(
-                expectedBalance,
-                ethers.parseEther("0.0001"), // Allow for small rounding differences
-            );
+            // Check balances
+            await expect(tx).to.changeEtherBalances([owner, disperseContract, addr1], [-values[0], 0, values[0]]);
         });
 
         it("Should revert if insufficient value sent", async function () {
