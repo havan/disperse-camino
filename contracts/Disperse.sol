@@ -16,8 +16,8 @@ contract DisperseCaminoV1 {
     error EmptyRecipients();
     error TransferFailed();
 
-    event TokensDispersed(address indexed token, uint256 total);
-    event CaminoDispersed(uint256 total);
+    event TokensDispersed(address indexed token, uint256 total, uint256 count);
+    event CaminoDispersed(uint256 total, uint256 count);
 
     /**
      * @notice Distributes ERC20 tokens to multiple recipients
@@ -51,7 +51,7 @@ contract DisperseCaminoV1 {
             }
         }
 
-        emit TokensDispersed(address(token), total);
+        emit TokensDispersed(address(token), total, len);
     }
 
     /**
@@ -86,6 +86,6 @@ contract DisperseCaminoV1 {
             payable(msg.sender).sendValue(remaining);
         }
 
-        emit CaminoDispersed(total);
+        emit CaminoDispersed(total, len);
     }
 }
