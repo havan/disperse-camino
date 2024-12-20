@@ -1,4 +1,4 @@
-import { BigNumberish, ethers } from "ethers";
+import { ethers } from "ethers";
 import { useContext, useEffect, useState } from "react";
 import ERC20 from "../artifacts/ERC20.json";
 import Disperse from "../artifacts/Disperse.json";
@@ -121,7 +121,7 @@ const Payment = ({ address }: PaymentProps) => {
         }
     };
 
-    const extractErrorMessage = (err: any) => {
+    const extractErrorMessage = (err: any): string => {
         if (typeof err === "object" && err !== null) {
             // Convert to string if it's an Error object
             const errorString = err.message || JSON.stringify(err);

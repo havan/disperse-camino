@@ -54,7 +54,7 @@ const ConfirmEther = ({ recipientsData, total, tokenBalance, remaining, disperse
                     </div>
                 </li>
                 <li>
-                    <div className={`flex justify-between mt-2 ${isDisabled && "text-red-700"}`}>
+                    <div className={`flex justify-between mt-2 ${isDisabled && "text-red-700 animate-pulse"}`}>
                         <div className="italic">remaining</div>
                         <div className="italic">{remaining}</div>
                     </div>
@@ -76,7 +76,7 @@ const ConfirmEther = ({ recipientsData, total, tokenBalance, remaining, disperse
                         >
                             disperse CAM
                         </button>
-                        {isDisabled && <div className="ml-4 italic">total exceeds balance</div>}
+                        {isDisabled && <div className="ml-4 italic animate-pulse">total exceeds balance</div>}
                         {txStatus && <Status txnStatus={txStatus} />}
                     </div>
                 </div>

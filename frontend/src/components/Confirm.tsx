@@ -70,7 +70,7 @@ const Confirm = ({
                     </div>
                 </li>
                 <li>
-                    <div className={`flex justify-between mt-2 ${isDisabled && "text-red-700"}`}>
+                    <div className={`flex justify-between mt-2 ${isDisabled && "text-red-700 animate-pulse"}`}>
                         <div className="italic">remaining</div>
                         <div className="italic">{remaining}</div>
                     </div>
@@ -92,7 +92,7 @@ const Confirm = ({
                     >
                         approve
                     </button>
-                    {isDisabled && <div className="ml-4 italic">total exceeds balance</div>}
+                    {isDisabled && <div className="ml-4 italic animate-pulse">total exceeds balance</div>}
                     {approveStatus && <Status txnStatus={approveStatus} />}
                 </div>
                 <div className="mt-6 flex items-center">
@@ -109,7 +109,7 @@ const Confirm = ({
                     >
                         disperse token
                     </button>
-                    {isDisabled && <div className="ml-4 italic">total exceeds balance</div>}
+                    {isDisabled && <div className="ml-4 italic animate-pulse">total exceeds balance</div>}
                     {txStatus && <Status txnStatus={txStatus} />}
                 </div>
             </div>
