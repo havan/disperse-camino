@@ -19,7 +19,7 @@ const Header = ({ address }: HeaderProps) => {
                         height: "32px",
                         marginLeft: "-32px",
                     }}
-                    alt="Ethereum SVG"
+                    alt="Camino Token Logo"
                 />
                 <h2 className="mt-8 text-3xl md:text-4xl lg:text-5xl">disperse</h2>
                 {address && <span className="text-sm md:text-base lg:text-lg">{networkContext.network || "🤷"}</span>}
