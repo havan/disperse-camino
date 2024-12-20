@@ -6,19 +6,19 @@
 const hre = require("hardhat");
 
 async function main() {
-  const Disperse = await hre.ethers.getContractFactory("Disperse");
+    const DisperseCaminoV1 = await hre.ethers.getContractFactory("DisperseCaminoV1");
 
-  const disperse = await Disperse.deploy();
+    const disperseCaminoV1 = await DisperseCaminoV1.deploy();
 
-  await disperse.deployed();
-  console.log(`Disperse contract address: ${disperse.address}`);
+    //await disperseCaminoV1.deployed();
+    console.log(`DisperseCaminoV1 contract address: ${await disperseCaminoV1.getAddress()}`);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
 main()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
+    .then(() => process.exit(0))
+    .catch((error) => {
+        console.error(error);
+        process.exit(1);
+    });
