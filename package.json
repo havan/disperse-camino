@@ -2,9 +2,6 @@
     "name": "disperse-camino",
     "version": "1.0.0",
     "description": "Disperse CAM or ERC20 tokens to multiple addresses in a single transaction.",
-    "repository": "https://github.com/havan/disperse-camino.git",
-    "author": "\"Ekrem Seren\" <ekrem.seren@gmail.com>",
-    "license": "MIT",
     "devDependencies": {
         "@nomicfoundation/hardhat-ethers": "^3.0.8",
         "@nomicfoundation/hardhat-verify": "^2.0.12",
