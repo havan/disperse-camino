@@ -99,12 +99,11 @@ describe("DisperseCaminoV1", function () {
 
             const initialBalance = await ethers.provider.getBalance(owner.address);
 
-            const tx = await disperseContract.disperseCamino(recipients, values, {
-                value: sentValue,
-            });
-
-            // Check balances
-            await expect(tx).to.changeEtherBalances([owner, disperseContract, addr1], [-values[0], 0, values[0]]);
+            await expect(
+                disperseContract.disperseCamino(recipients, values, {
+                    value: sentValue,
+                }),
+            ).to.revertedWithCustomError(disperseContract, "TooMuchCAMReceived");
         });
 
         it("Should revert if insufficient value sent", async function () {

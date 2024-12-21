@@ -14,7 +14,7 @@ export const supportedChains: ChainInfo[] = [
     },
     {
         chainId: 500,
-        disperseAddress: "0x54510dA48aE512387111623D59812B794d11754f",
+        disperseAddress: "",
         blockExplorer: "https://columbus.caminoscan.com/",
         name: "camino",
     },

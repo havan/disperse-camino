@@ -44,6 +44,10 @@ const Header = ({ address }: HeaderProps) => {
                 <span className="mr-2 text-xs md:text-sm lg:text-base align-text-top italic">verb</span>
                 distribute CAM or ERC20 tokens to multiple addresses
             </p>
+            <p className="mt-4 text-red-500 text-base md:text-lg lg:text-xl">
+                <span className="mr-2 text-xs md:text-sm lg:text-base align-text-top italic">state</span>
+                beta, use at your own risk
+            </p>
         </div>
     );
 };

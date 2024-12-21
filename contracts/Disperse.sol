@@ -4,6 +4,25 @@ pragma solidity ^0.8.26;
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { Address } from "@openzeppelin/contracts/utils/Address.sol";
 
+/*
+
+██████╗ ██╗███████╗██████╗ ███████╗██████╗ ███████╗███████╗
+██╔══██╗██║██╔════╝██╔══██╗██╔════╝██╔══██╗██╔════╝██╔════╝
+██║  ██║██║███████╗██████╔╝█████╗  ██████╔╝███████╗█████╗  
+██║  ██║██║╚════██║██╔═══╝ ██╔══╝  ██╔══██╗╚════██║██╔══╝  
+██████╔╝██║███████║██║     ███████╗██║  ██║███████║███████╗
+╚═════╝ ╚═╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝
+                                                           
+ ██████╗ █████╗ ███╗   ███╗██╗███╗   ██╗ ██████╗           
+██╔════╝██╔══██╗████╗ ████║██║████╗  ██║██╔═══██╗          
+██║     ███████║██╔████╔██║██║██╔██╗ ██║██║   ██║          
+██║     ██╔══██║██║╚██╔╝██║██║██║╚██╗██║██║   ██║          
+╚██████╗██║  ██║██║ ╚═╝ ██║██║██║ ╚████║╚██████╔╝          
+ ╚═════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝ ╚═════╝           
+                                                           
+By: @CaminoScan https://caminoscan.com
+*/
+
 /**
  * @title DisperseCaminoV1
  * @notice Optimized contract for batch distribution of ERC20 tokens and native currency
@@ -13,6 +32,7 @@ contract DisperseCaminoV1 {
 
     error ArrayLengthMismatch();
     error InsufficientValue();
+    error TooMuchCAMReceived();
     error EmptyRecipients();
     error TransferFailed();
 
@@ -73,17 +93,14 @@ contract DisperseCaminoV1 {
         }
         if (msg.value < total) revert InsufficientValue();
 
+        // Fail if too much CAM received
+        if (msg.value > total) revert TooMuchCAMReceived();
+
         // Distribute native currency
         unchecked {
             for (uint256 i; i < len; ++i) {
                 payable(recipients[i]).sendValue(values[i]);
             }
-        }
-
-        // Return excess funds
-        uint256 remaining = msg.value - total;
-        if (remaining > 0) {
-            payable(msg.sender).sendValue(remaining);
         }
 
         emit CaminoDispersed(total, len);
