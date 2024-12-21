@@ -20,7 +20,7 @@ export const supportedChains: ChainInfo[] = [
     },
     {
         chainId: 501,
-        disperseAddress: "0x9B1C370a1052AA4C214908081cF22FC97f44312C",
+        disperseAddress: "0xa73248AA0FD060732959a2c3AFF15F81E0Bb2dCf",
         blockExplorer: "https://columbus.caminoscan.com/",
         name: "columbus",
     },
