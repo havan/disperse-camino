@@ -2,8 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-*,
-.brygada-1918-normal {
+* {
     font-family: "Brygada 1918", serif;
     font-optical-sizing: auto;
     font-weight: 400;
@@ -32,21 +31,3 @@
 .dc-button {
     box-shadow: 6px 6px #ff595e;
 }
-
-/* 
-
-Camino
-    primary: #0085ff
-  secondary: #b440fc
-     accent: #35e9ad
-        sky: #b5e3fd
-
-className="block border-b-2 border-black outline-none px-2 py-2 mt-4 h-48 max-w-3xl text-xs md:text-sm lg:text-base"
-style={{
-    width: "100%",
-    background: "aquamarine",
-    color: "black",
-}}
-
-        
-*/
