@@ -11,6 +11,7 @@
 # frontend
 /frontend/dist
 /frontend/package-lock.json
+/frontend/src/artifacts
 
 # Yarn
 yarn.lock

@@ -14,13 +14,13 @@ export const supportedChains: ChainInfo[] = [
     },
     {
         chainId: 500,
-        disperseAddress: "",
-        blockExplorer: "https://columbus.caminoscan.com/",
+        disperseAddress: "0xAb84d847dE35AF9C4931aE2A24f584a4F058a784",
+        blockExplorer: "https://caminoscan.com/",
         name: "camino",
     },
     {
         chainId: 501,
-        disperseAddress: "0x9B1C370a1052AA4C214908081cF22FC97f44312C",
+        disperseAddress: "0xa73248AA0FD060732959a2c3AFF15F81E0Bb2dCf",
         blockExplorer: "https://columbus.caminoscan.com/",
         name: "columbus",
     },
