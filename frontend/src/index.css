@@ -3,5 +3,31 @@
 @tailwind utilities;
 
 * {
-  font-family: "Roboto";
+    font-family: "Brygada 1918", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.selected-token {
+    background-color: #a7fc8d;
+}
+
+.bar {
+    flex-grow: 1;
+    margin: auto 0.3em;
+    border-bottom: 1px #555555 dotted;
+}
+
+.dc-input-bg {
+    background-color: #83ecec;
+}
+
+.dc-input {
+    width: 100%;
+    color: black;
+}
+
+.dc-button {
+    box-shadow: 6px 6px #ff595e;
 }

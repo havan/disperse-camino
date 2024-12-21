@@ -1,59 +1,53 @@
-require("@nomiclabs/hardhat-waffle");
-require("@nomiclabs/hardhat-etherscan");
-require("dotenv").config();
-const MUMBAI_RPC =
-  process.env.MUMBAI_RPC || "https://rpc-mumbai.maticvigil.com	";
-const GOERLI_RPC = process.env.GOERLI_RPC || "https://rpc.ankr.com/eth_goerli	";
-const SKALE_RPC = process.env.SKALE_RPC;
-const POLYGON_RPC = process.env.POLYGON_RPC || "https://polygon-rpc.com	";
-const ETHERSCAN_KEY = process.env.ETHERSCAN_KEY;
-const privateKey = process.env.PRIVATE_KEY;
+require("@nomicfoundation/hardhat-toolbox");
 
-/**
- * @type import('hardhat/config').HardhatUserConfig
- */
+/** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  defaultNetwork: "hardhat",
-  solidity: {
-    version: "0.8.0",
-    settings: {
-      optimizer: {
-        enabled: true,
-        runs: 200,
-      },
+    solidity: {
+        version: "0.8.28",
+        settings: {
+            optimizer: {
+                enabled: true,
+                runs: 200,
+            },
+        },
     },
-  },
-  networks: {
-    hardhat: {
-      chainId: 1337,
+
+    networks: {
+        localhost: {
+            url: "http://127.0.0.1:8545",
+        },
+        columbus: {
+            url: vars.get("COLUMBUS_URL", "https://columbus.camino.network/ext/bc/C/rpc"),
+            accounts: vars.has("COLUMBUS_DEPLOYER_PRIVATE_KEY") ? [vars.get("COLUMBUS_DEPLOYER_PRIVATE_KEY")] : [],
+        },
+        camino: {
+            url: vars.get("CAMINO_URL", "https://api.camino.network/ext/bc/C/rpc"),
+            accounts: vars.has("CAMINO_DEPLOYER_PRIVATE_KEY") ? [vars.get("CAMINO_DEPLOYER_PRIVATE_KEY")] : [],
+        },
     },
-    goerli: {
-      url: GOERLI_RPC,
-      accounts: [privateKey],
+
+    etherscan: {
+        apiKey: {
+            columbus: "abc",
+            camino: "abc",
+        },
+        customChains: [
+            {
+                network: "columbus",
+                chainId: 501,
+                urls: {
+                    apiURL: "https://columbus.caminoscan.com/api",
+                    browserURL: "https://columbus.caminoscan.com",
+                },
+            },
+            {
+                network: "camino",
+                chainId: 500,
+                urls: {
+                    apiURL: "https://caminoscan.com/api",
+                    browserURL: "https://caminoscan.com",
+                },
+            },
+        ],
     },
-    mumbai: {
-      url: MUMBAI_RPC,
-      accounts: [privateKey],
-    },
-    skale: {
-      url: SKALE_RPC,
-      accounts: [privateKey],
-      gasPrice: 100000,
-    },
-    polygon: {
-      url: POLYGON_RPC,
-      accounts: [privateKey],
-    },
-    europaTestnet: {
-      url: "https://testnet.skalenodes.com/v1/juicy-low-small-testnet",
-      accounts: [privateKey],
-    },
-    opSepolia: {
-      url: "https://sepolia.optimism.io",
-      accounts: [privateKey],
-    },
-  },
-  etherscan: {
-    apiKey: ETHERSCAN_KEY,
-  },
 };

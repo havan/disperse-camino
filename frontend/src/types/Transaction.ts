@@ -1,4 +1,4 @@
 export type TxStatus = {
-  status: "pending" | "success";
-  hash: string;
+    status: "pending" | "success" | "error";
+    hash: string;
 };
