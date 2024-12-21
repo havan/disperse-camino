@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { useContext, useEffect, useState } from "react";
 import ERC20 from "../artifacts/ERC20.json";
-import Disperse from "../artifacts/Disperse.json";
+import DisperseCaminoV1 from "../artifacts/DisperseCaminoV1.json";
 import Confirm from "./Confirm";
 import Recipients from "./Recipients";
 import { NetworkContext } from "../App";
@@ -147,22 +147,30 @@ const Payment = ({ address }: PaymentProps) => {
                 const provider = new ethers.providers.Web3Provider(window.ethereum);
                 const signer = provider.getSigner();
 
-                const disperse = new ethers.Contract(disperseAddress, Disperse.abi, signer);
+                const disperse = new ethers.Contract(disperseAddress, DisperseCaminoV1.abi, signer);
 
                 const recipients = recipientsData.map((recipient) => recipient.address);
                 const values = recipientsData.map((recipient) => recipient.value);
 
-                const txn = await disperse.disperseToken(tokenAddress, recipients, values);
+                console.log(
+                    `Dispersing ${tokenDetails.symbol} now... Total: ${total} Recipient Count: ${recipients.length}`,
+                );
+
+                const txn = await disperse.disperseERC20(tokenAddress, recipients, values);
+
                 setTxStatus({
                     status: "pending",
                     hash: txn.hash,
                 });
 
                 await txn.wait();
+
                 setTxStatus({
                     status: "success",
                     hash: txn.hash,
                 });
+
+                console.log(`Dispersing ${tokenDetails.symbol} completed successfully!`);
             }
         } catch (error) {
             console.log(error);
@@ -212,7 +220,7 @@ const Payment = ({ address }: PaymentProps) => {
                     send
                     <span
                         onClick={() => setCurrentLink("ether")}
-                        className={`border-gray-600 border-b-2 ${currentLink !== "ether" ? "text-gray-500" : "selected-token"}`}
+                        className={`border-gray-600 border-b-2 ${currentLink !== "ether" ? "text-gray-500" : "dc-input-bg"}`}
                     >
                         {" "}
                         CAM{" "}
@@ -220,7 +228,7 @@ const Payment = ({ address }: PaymentProps) => {
                     or
                     <span
                         onClick={() => setCurrentLink("token")}
-                        className={`border-gray-600 border-b-2 ${currentLink !== "token" ? "text-gray-500" : "selected-token"}`}
+                        className={`border-gray-600 border-b-2 ${currentLink !== "token" ? "text-gray-500" : "dc-input-bg"}`}
                     >
                         {" "}
                         ERC20 token
@@ -237,24 +245,13 @@ const Payment = ({ address }: PaymentProps) => {
                     <div className="flex mt-6">
                         <input
                             type="text"
-                            className="text-l py-2 px-1 border-b-2 border-black text-black outline-none max-w-3xl text-xs md:text-sm lg:text-base"
+                            className="text-l py-2 px-1 border-b-2 border-black text-black outline-none max-w-3xl text-xs md:text-sm lg:text-base dc-input dc-input-bg"
                             placeholder="0xFe77dcE375C3814F15F8035bCAC1A791D3dCdf21"
                             spellCheck="false"
                             value={tokenAddress}
                             onChange={(e) => setTokenAddress(e.target.value)}
-                            style={{
-                                width: "100%",
-                                background: "aquamarine",
-                            }}
                         />
-                        <button
-                            onClick={loadToken}
-                            className="ml-4 px-2"
-                            style={{
-                                background: "aquamarine",
-                                boxShadow: "6px 6px crimson",
-                            }}
-                        >
+                        <button onClick={loadToken} className="ml-4 px-2 dc-button dc-input-bg">
                             load
                         </button>
                     </div>

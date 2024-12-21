@@ -11,13 +11,26 @@
 }
 
 .selected-token {
-    background-color: aquamarine;
+    background-color: #a7fc8d;
 }
 
 .bar {
     flex-grow: 1;
     margin: auto 0.3em;
     border-bottom: 1px #555555 dotted;
+}
+
+.dc-input-bg {
+    background-color: #83ecec;
+}
+
+.dc-input {
+    width: 100%;
+    color: black;
+}
+
+.dc-button {
+    box-shadow: 6px 6px #ff595e;
 }
 
 /* 
@@ -27,5 +40,13 @@ Camino
   secondary: #b440fc
      accent: #35e9ad
         sky: #b5e3fd
+
+className="block border-b-2 border-black outline-none px-2 py-2 mt-4 h-48 max-w-3xl text-xs md:text-sm lg:text-base"
+style={{
+    width: "100%",
+    background: "aquamarine",
+    color: "black",
+}}
+
         
 */

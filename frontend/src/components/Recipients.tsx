@@ -16,12 +16,7 @@ const Recipients = ({ tokenSymbol, textValue, setTextValue }: RecipientsProps) =
                 spellCheck="false"
                 value={textValue}
                 onChange={(e) => setTextValue(e.target.value)}
-                className="block border-b-2 border-black outline-none px-2 py-2 mt-4 h-48 max-w-3xl text-xs md:text-sm lg:text-base"
-                style={{
-                    width: "100%",
-                    background: "aquamarine",
-                    color: "black",
-                }}
+                className="block border-b-2 border-black outline-none px-2 py-2 mt-4 h-48 max-w-3xl text-xs md:text-sm lg:text-base dc-input dc-input-bg"
                 placeholder="0xFe77dcE375C3814F15F8035bCAC1A791D3dCdf21=21.42
 0xFe77dcE375C3814F15F8035bCAC1A791D3dCdf21 21.42
 0xFe77dcE375C3814F15F8035bCAC1A791D3dCdf21,21.42"

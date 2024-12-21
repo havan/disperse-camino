@@ -91,13 +91,9 @@ const Confirm = ({
                 <div className="mt-4 flex items-center">
                     <button
                         onClick={approve}
-                        className={`px-2 py-3 italic disabled:opacity-50 cursor-pointer ${
+                        className={`px-2 py-3 italic disabled:opacity-50 cursor-pointer dc-button dc-input-bg ${
                             isDisabled && `disabled:cursor-default`
                         }`}
-                        style={{
-                            background: "aquamarine",
-                            boxShadow: "6px 6px crimson",
-                        }}
                         disabled={isDisabled}
                     >
                         approve
@@ -109,13 +105,9 @@ const Confirm = ({
                     <button
                         onClick={disperse}
                         disabled={isDisabled}
-                        className={`px-2 py-3 italic disabled:opacity-50 cursor-pointer ${
+                        className={`px-2 py-3 italic disabled:opacity-50 cursor-pointer dc-button dc-input-bg ${
                             isDisabled && `disabled:cursor-default`
                         }`}
-                        style={{
-                            background: "aquamarine",
-                            boxShadow: "6px 6px crimson",
-                        }}
                     >
                         disperse token
                     </button>

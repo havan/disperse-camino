@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { ethers } from "ethers";
-
-import Disperse from "../artifacts/Disperse.json";
+import DisperseCaminoV1 from "../artifacts/DisperseCaminoV1.json";
 import { getNetworkInfo, parseText } from "../utils/index";
 import Recipients from "./Recipients";
 import ConfirmEther from "./ConfirmEther";
@@ -61,29 +60,33 @@ const Ether = ({ address }: EtherProps) => {
             if (ethereum && disperseAddress) {
                 const provider = new ethers.providers.Web3Provider(ethereum);
                 const signer = provider.getSigner();
-                const disperseContract = new ethers.Contract(disperseAddress, Disperse.abi, signer);
+
+                const disperseContract = new ethers.Contract(disperseAddress, DisperseCaminoV1.abi, signer);
 
                 const recipients = recipientsData.map((recipient) => recipient.address);
                 const values = recipientsData.map((recipient) => recipient.value);
 
-                console.log("Dispersing CAM now");
-                console.log(total);
-                const txn = await disperseContract.disperseEther(recipients, values, {
+                console.log(`Dispersing CAM now... Total: ${total} Recipient Count: ${recipients.length}`);
+
+                const txn = await disperseContract.disperseCamino(recipients, values, {
                     value: total,
                 });
+
                 setTxStatus({
                     hash: txn.hash,
                     status: "pending",
                 });
+
                 await txn.wait();
                 setTxStatus({
                     hash: txn.hash,
                     status: "success",
                 });
-                console.log("Completed dispersing CAM");
+
+                console.log("Completed dispersing CAM!");
             }
         } catch (error) {
-            console.log("error occurred while dispersing CAM");
+            console.log("Error occurred while dispersing CAM");
             console.log(error);
         }
     };

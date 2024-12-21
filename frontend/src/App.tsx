@@ -40,7 +40,7 @@ function App() {
             const address = await signer.getAddress();
 
             if (!isChainSupported(chainId)) {
-                console.log("Chain not supported");
+                console.log(`Chain not supported. Chain ID: ${chainId}`);
                 dispatch({ type: "SET_NETWORK", payload: null });
             } else {
                 console.log("Chain supported. Fetching network details...");
