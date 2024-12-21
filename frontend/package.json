@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "scripts": {
         "dev": "vite",
-        "build": "tsc && vite build",
+        "build": "tsc && vite build && echo disperse.caminoscan.com > dist/CNAME",
         "serve": "vite preview"
     },
     "dependencies": {
