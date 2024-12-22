@@ -46,7 +46,7 @@ const ConfirmEther = ({ recipientsData, total, tokenBalance, remaining, disperse
                     ))}
                 <li>
                     <div className="flex justify-between mt-4 border-t border-black">
-                        <div className="italic">total</div>
+                        <div className="italic">total ({recipientsData.length} addresses)</div>
                         <div className="italic">{total ? ethers.utils.formatEther(total) : ""} CAM</div>
                     </div>
                 </li>

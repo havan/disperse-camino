@@ -63,7 +63,7 @@ const Confirm = ({
                     ))}
                 <li>
                     <div className="flex justify-between mt-4 border-t border-black">
-                        <div className="italic">total</div>
+                        <div className="italic">total ({recipientsData.length} addresses)</div>
                         <div className="italic">
                             {total ? ethers.utils.formatUnits(total, tokenDecimals ?? 18) : ""} {tokenSymbol}
                         </div>
